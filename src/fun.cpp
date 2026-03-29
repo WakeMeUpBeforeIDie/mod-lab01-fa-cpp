@@ -1,15 +1,15 @@
 // Copyright 2022 UNN-IASR
 #include "fun.h"
-#include <cctype> 
-
+#include <cctype>
 unsigned int faStr1(const char *str) {
-    if (!str) return 0;
     unsigned int count = 0;
     bool inWord = false;
     bool hasDigit = false;
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == ' ') {
-            if (inWord && !hasDigit) count++;
+    for (const char *p = str; *p != '\0'; ++p) {
+        if (*p == ' ') {
+            if (inWord && !hasDigit) {
+                ++count;
+            }
             inWord = false;
             hasDigit = false;
         } else {
@@ -17,22 +17,26 @@ unsigned int faStr1(const char *str) {
                 inWord = true;
                 hasDigit = false;
             }
-            if (isdigit(str[i])) hasDigit = true;          
+            if (*p >= '0' && *p <= '9') {
+                hasDigit = true;
+            }
         }
     }
-    if (inWord && !hasDigit) count++; 
+    if (inWord && !hasDigit) {
+        ++count;
+    }
     return count;
 }
-
 unsigned int faStr2(const char *str) {
-    if (!str) return 0;
     unsigned int count = 0;
     bool inWord = false;
     bool valid = true;
     bool firstChar = true;
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == ' ') {
-            if (inWord && valid) count++;   
+    for (const char *p = str; *p != '\0'; ++p) {
+        if (*p == ' ') {
+            if (inWord && valid) {
+                ++count;
+            }
             inWord = false;
             firstChar = true;
             valid = true;
@@ -41,47 +45,52 @@ unsigned int faStr2(const char *str) {
                 inWord = true;
                 firstChar = true;
                 valid = true;
-            }   
+            }
             if (firstChar) {
-                if (!isupper(str[i])) valid = false;                
+                if (!(*p >= 'A' && *p <= 'Z')) {
+                    valid = false;
+                }
                 firstChar = false;
             } else {
-                if (!islower(str[i])) valid = false;               
+                if (!(*p >= 'a' && *p <= 'z')) {
+                    valid = false;
+                }
             }
         }
     }
-    if (inWord && valid) count++;
+    if (inWord && valid) {
+        ++count;
+    }
     return count;
 }
-
 unsigned int faStr3(const char *str) {
-    if (!str) return 0;
-    int totalLength = 0;
-    int wordCount = 0;
+    unsigned int wordCount = 0;
+    unsigned int totalLength = 0;
     bool inWord = false;
-    int currentWordLength = 0;
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == ' ') {
+    unsigned int currentLength = 0;
+    for (const char *p = str; *p != '\0'; ++p) {
+        if (*p == ' ') {
             if (inWord) {
-                totalLength += currentWordLength;
-                wordCount++;
-                currentWordLength = 0;
+                ++wordCount;
+                totalLength += currentLength;
+                currentLength = 0;
                 inWord = false;
             }
         } else {
             if (!inWord) {
                 inWord = true;
-                currentWordLength = 1;
-            } else {
-                currentWordLength++;
+                currentLength = 0;
             }
+            ++currentLength;
         }
     }
     if (inWord) {
-        totalLength += currentWordLength;
-        wordCount++;
+        ++wordCount;
+        totalLength += currentLength;
     }
-    if (wordCount == 0) return 0;
-    double average = static_cast<double>(totalLength) / wordCount;
-    return static_cast<unsigned int>(average + 0.5);
+    if (wordCount == 0) {
+        return 0;
+    }
+    unsigned int result = (totalLength + wordCount / 2) / wordCount;
+    return result;
 }
