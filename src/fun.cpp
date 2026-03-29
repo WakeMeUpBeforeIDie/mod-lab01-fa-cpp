@@ -24,14 +24,14 @@ unsigned int faStr1(const char *str) {
     }
     if (inWord && !hasDigit) {
         ++count;
-    }
+    }    
     return count;
 }
 unsigned int faStr2(const char *str) {
     unsigned int count = 0;
     bool inWord = false;
     bool valid = true;
-    bool firstChar = true;
+    bool firstChar = true; 
     for (const char *p = str; *p != '\0'; ++p) {
         if (*p == ' ') {
             if (inWord && valid) {
