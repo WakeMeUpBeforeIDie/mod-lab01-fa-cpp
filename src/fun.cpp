@@ -1,6 +1,6 @@
 // Copyright 2022 UNN-IASR
 #include "fun.h"
-#include <cctype>  
+#include <cctype>
 
 unsigned int faStr1(const char *str) {
     unsigned int count = 0;
@@ -33,7 +33,7 @@ unsigned int faStr2(const char *str) {
     unsigned int count = 0;
     bool inWord = false;
     bool valid = true;
-    bool firstChar = true; 
+    bool firstChar = true;
     for (const char *p = str; *p != '\0'; ++p) {
         if (std::isspace(*p)) {
             if (inWord && valid) {
@@ -71,7 +71,6 @@ unsigned int faStr3(const char *str) {
     unsigned int totalLength = 0;
     bool inWord = false;
     unsigned int currentLength = 0;
-    
     for (const char *p = str; *p != '\0'; ++p) {
         if (std::isspace(*p)) {
             if (inWord) {
